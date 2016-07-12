@@ -24,7 +24,7 @@ public class TextManager_Clue : MonoBehaviour {
 	// the player has entered the room.
 
 	int outsideCounter=0, gardenCounter=0, entranceCounter=0, diningCounter=0, kitchenCounter=0, livingCounter=0,
-	guestCounter=0, libraryCounter=0, stairCounter=0, bedroomCounter=0, bathroomCounter=0, leaveCounter=1;
+	guestCounter=0, libraryCounter=0, stairCounter=0, bedroomCounter=0, bathroomCounter=0, leaveCounter=0;
 
 	//The player should start just Outside the Mansion.
 	string currentRoom = "The perimeter just outside the Mansion";
@@ -139,6 +139,75 @@ public class TextManager_Clue : MonoBehaviour {
 				GameOver = true;
 				currentRoom = "GAME OVER";
 			} 
+		} else if (currentRoom == "The Entrance Hall" && entranceCounter == 0) {
+			textBuffer += "\n\nAs soon as I walk into the main lobby I see the commissionner leaning against one of the many ornate tables. As his eyes meet mine he begins to walk towards me." +
+			"He removes his right hand from his pocket and as he passes me, he lays it on my shoulder.\n 'This might a tough one' he says 'Most of the witnesses are in the kitchen, we wanted to " +
+			"move them away from the body. I'm going to go outside, let me know if you can make sense of this murder. \nI wasn't sure if the commissioner was truly stumped and couldn't deal with this case" +
+			"or if he was simply tired of this job and needed a smoke. In any case, it seemed clear that this was a murder";
+			textBuffer += "\n\npress [A] to enter the Dining Room";
+			textBuffer += "\npress [S] to enter the Living Room";
+			textBuffer += "\nPress [D] to go up the Stairs";
+			textBuffer += "\nPress [W] to go back Outside";
+
+			if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The StairCase";
+				entranceCounter++;
+			} else if (Input.GetKeyDown (KeyCode.S)) {
+				currentRoom = "The Living Room";
+				entranceCounter++;
+			} else if (Input.GetKeyDown (KeyCode.A)) {
+				currentRoom = "The Dining Room";
+				entranceCounter++;
+			} else if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The perimeter just outside the Mansion";
+				entranceCounter++;
+			}
+
+		} else if (currentRoom == "The Entrance Hall" && entranceCounter > 0) {
+			if (!hasAllTheEvidence) {
+				textBuffer += "\n\nNothing has changed here. Maybe I should move on to an other room. There must be more evidence to find!";
+				textBuffer += "\n\npress [A] to enter the Dining Room";
+				textBuffer += "\npress [S] to enter the Living Room";
+				textBuffer += "\nPress [D] to go up the Stairs";
+				textBuffer += "\nPress [W] to go back Outside";
+
+				if (Input.GetKeyDown (KeyCode.D)) {
+					currentRoom = "The StairCase";
+					entranceCounter++;
+				} else if (Input.GetKeyDown (KeyCode.S)) {
+					currentRoom = "The Living Room";
+					entranceCounter++;
+				} else if (Input.GetKeyDown (KeyCode.A)) {
+					currentRoom = "The Dining Room";
+					entranceCounter++;
+				} else if (Input.GetKeyDown (KeyCode.W)) {
+					currentRoom = "The perimeter just outside the Mansion";
+					entranceCounter++;
+				}
+
+			} else if (hasAllTheEvidence) {
+				textBuffer += "\n\nI believe i have found all the evidence; there is nothing more to see here. I should go talk to the commissioner." +
+					"He should be waiting for me outside.";
+				textBuffer += "\n\npress [A] to enter the Dining Room";
+				textBuffer += "\npress [S] to enter the Living Room";
+				textBuffer += "\nPress [D] to go up the Stairs";
+				textBuffer += "\nPress [W] to go back Outside";
+
+				if (Input.GetKeyDown (KeyCode.D)) {
+					currentRoom = "The StairCase";
+					entranceCounter++;
+				} else if (Input.GetKeyDown (KeyCode.S)) {
+					currentRoom = "The Living Room";
+					entranceCounter++;
+				} else if (Input.GetKeyDown (KeyCode.A)) {
+					currentRoom = "The Dining Room";
+					entranceCounter++;
+				} else if (Input.GetKeyDown (KeyCode.W)) {
+					currentRoom = "The perimeter just outside the Mansion";
+					entranceCounter++;
+				}
+			}
+
 		}
 
 
