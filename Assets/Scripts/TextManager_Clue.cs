@@ -31,11 +31,11 @@ public class TextManager_Clue : MonoBehaviour {
 	//We create the gates the player will have to open
 	bool GameOver=false;
 	bool hasKeyToTheBedroom = false;
-	bool hasEnteredTheMansion = false;
+	//bool hasEnteredTheMansion = false;
 	bool wasGivenPermissionToGarden = false;
-	bool hasAllTheEvidence = true;
-	bool hasStudentID = false;
-	bool hasVial=false;
+	bool hasAllTheEvidence = false;
+	//bool hasStudentID = false;
+	bool hasVial=false, window=false, pharmacist=false, letter=false, cup= false;
 	// Use this for initialization
 	void Start () {
 
@@ -186,8 +186,8 @@ public class TextManager_Clue : MonoBehaviour {
 				}
 
 			} else if (hasAllTheEvidence) {
-				textBuffer += "\n\nI believe i have found all the evidence; there is nothing more to see here. I should go talk to the commissioner." +
-					"He should be waiting for me outside.";
+				textBuffer += "\n\nI believe I have found all the evidence; there is nothing more to see here. I should go talk to the commissioner." +
+				"He should be waiting for me outside.";
 				textBuffer += "\n\npress [A] to enter the Dining Room";
 				textBuffer += "\npress [S] to enter the Living Room";
 				textBuffer += "\nPress [D] to go up the Stairs";
@@ -208,6 +208,33 @@ public class TextManager_Clue : MonoBehaviour {
 				}
 			}
 
+		} else if (currentRoom == "The Dining Room" && diningCounter == 0) {
+			textBuffer += "\n\nI stepped in to the Dining Room to find three of the five witnesses. They all seemed distraught. Who wouldn't be after seeing a dead body." +
+			"One of them was crying so strongly he could probably be heared from any room in the house. He sat by the table next to the open window. This was probably not much consalation" +
+			" but at least he had a nice view on the garden. It was clear this was probably not the time to bother these people.";
+			
+			textBuffer += "\n\npress [D] to enter to return to the Main Hall";
+			textBuffer += "\npress [S] to enter the Kitchen";
+			window = true;
+			if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The Entrance Hall";
+				diningCounter++;
+			} else if (Input.GetKeyDown (KeyCode.S)) {
+				currentRoom = "The Kitchen";
+				diningCounter++;
+			} 
+		}else if (currentRoom == "The Dining Room" && diningCounter > 0) {
+			textBuffer += "\n\nThe witnesses were all still there. Still not ready to talk. Hopefully the commissioner had a chance to talk to them before I got here.";
+
+			textBuffer += "\n\npress [D] to enter to return to the Main Hall";
+			textBuffer += "\npress [S] to enter the Kitchen";
+			if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The Entrance Hall";
+			} else if (Input.GetKeyDown (KeyCode.S)) {
+				currentRoom = "The Kitchen";
+			} 
+
+
 		}
 
 
@@ -220,8 +247,11 @@ public class TextManager_Clue : MonoBehaviour {
 
 
 
-		else if (GameOver) {
+		if (GameOver) {
 			textBuffer = "GAME OVER. The case will remain unsolved";
+		}
+		if (hasVial&&window&&pharmacist&&letter&&cup){
+			hasAllTheEvidence=true;
 		}
 		//
 		GetComponent<Text> ().text = textBuffer;
