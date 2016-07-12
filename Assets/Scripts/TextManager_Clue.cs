@@ -235,7 +235,7 @@ public class TextManager_Clue : MonoBehaviour {
 			} 
 
 
-		} else if (currentRoom == "The Kitchen" && kitchenCounter== 0) {
+		} else if (currentRoom == "The Kitchen" && kitchenCounter == 0) {
 			textBuffer += "\n\nAs I walk into the kitchen I find another one of the witnesses. \n'Are you one of the police officers on the case?' They ask. I reply that I am and show them my badge." +
 			"They looks at it dismissively and then says 'My name is Sam, I am the owner of this Residence. Is there anything you would like to know?' I asked her about the other witnesses. 'Oh, well" +
 			" we are all friends. Henry is a pharmacist, Valentine is an actor, Marie is a lawyer, and Laura is currently unnemployed but she used to serve in the military'. I jot all the information down" +
@@ -248,7 +248,7 @@ public class TextManager_Clue : MonoBehaviour {
 				kitchenCounter++;
 			}
 
-		}else if (currentRoom == "The Kitchen" && kitchenCounter > 0) {
+		} else if (currentRoom == "The Kitchen" && kitchenCounter > 0) {
 			textBuffer += "\n\nSam was still in the Kitchen. She was sipping on some water. When she noticed me she seemed perplexed. 'Is there anything you need she asks'? I relpy that " +
 			"there is not and excuse myself for bothering her.";
 			textBuffer += "\n\nPress [W] to go back to the Dining Room";
@@ -256,13 +256,27 @@ public class TextManager_Clue : MonoBehaviour {
 				currentRoom = "The Dining Room";
 			}
 
+		} else if (currentRoom == "The StairCase") {
+			textBuffer += "\n\nI decided to go up the stairs";
+			if (!hasKeyToTheBedroom) {
+				textBuffer += "\nOnce I reach the top I go to open the door. However it won't budge. It must be locked. There has to be a key around here somewhere.";
+				textBuffer += "\n\npress [A] to return to the Entrance Hall";
+				if (Input.GetKeyDown (KeyCode.A)) {
+					currentRoom = "The Entrance Hall";
+
+				}
+			} else if (hasKeyToTheBedroom) {
+				textBuffer += "\nOnce I reach the top I go to open the door. I use the key I found in the library to unlock. The door opens.";
+				textBuffer += "\n\nPress [A] to return to the Entrance Hall";
+				textBuffer += "\nPress [S] to go into the Master Bedroom";
+				if (Input.GetKeyDown (KeyCode.A)) {
+					currentRoom = "The Entrance Hall";
+				} else if (Input.GetKeyDown (KeyCode.S)) {
+					currentRoom = "The Master BedRoom";
+				}
+			}
+
 		}
-
-
-
-
-
-
 
 
 
