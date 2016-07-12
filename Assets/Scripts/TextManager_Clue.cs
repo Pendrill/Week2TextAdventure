@@ -210,8 +210,8 @@ public class TextManager_Clue : MonoBehaviour {
 
 		} else if (currentRoom == "The Dining Room" && diningCounter == 0) {
 			textBuffer += "\n\nI stepped in to the Dining Room to find three of the five witnesses. They all seemed distraught. Who wouldn't be after seeing a dead body." +
-			"One of them was crying so strongly he could probably be heared from any room in the house. He sat by the table next to the open window. This was probably not much consalation" +
-			" but at least he had a nice view on the garden. It was clear this was probably not the time to bother these people.";
+			"One of them was crying so strongly they could probably be heared from any room in the house. They sat by the table next to the open window. This was probably not much consalation" +
+			" but at least they had a nice view on the garden. It was clear this was probably not the time to bother these people.";
 			
 			textBuffer += "\n\npress [D] to enter to return to the Main Hall";
 			textBuffer += "\npress [S] to enter the Kitchen";
@@ -223,7 +223,7 @@ public class TextManager_Clue : MonoBehaviour {
 				currentRoom = "The Kitchen";
 				diningCounter++;
 			} 
-		}else if (currentRoom == "The Dining Room" && diningCounter > 0) {
+		} else if (currentRoom == "The Dining Room" && diningCounter > 0) {
 			textBuffer += "\n\nThe witnesses were all still there. Still not ready to talk. Hopefully the commissioner had a chance to talk to them before I got here.";
 
 			textBuffer += "\n\npress [D] to enter to return to the Main Hall";
@@ -234,6 +234,27 @@ public class TextManager_Clue : MonoBehaviour {
 				currentRoom = "The Kitchen";
 			} 
 
+
+		} else if (currentRoom == "The Kitchen" && kitchenCounter== 0) {
+			textBuffer += "\n\nAs I walk into the kitchen I find another one of the witnesses. \n'Are you one of the police officers on the case?' They ask. I reply that I am and show them my badge." +
+			"They looks at it dismissively and then says 'My name is Sam, I am the owner of this Residence. Is there anything you would like to know?' I asked her about the other witnesses. 'Oh, well" +
+			" we are all friends. Henry is a pharmacist, Valentine is an actor, Marie is a lawyer, and Laura is currently unnemployed but she used to serve in the military'. I jot all the information down" +
+			"on my notebook. Before leaving her i ask her if it ok for me to search every place within the residence. She nodded yes reluctantly.";
+			pharmacist = true;
+			wasGivenPermissionToGarden = true;
+			textBuffer += "\n\nPress [W] to go back to the Dining Room";
+			if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Dining Room";
+				kitchenCounter++;
+			}
+
+		}else if (currentRoom == "The Kitchen" && kitchenCounter > 0) {
+			textBuffer += "\n\nSam was still in the Kitchen. She was sipping on some water. When she noticed me she seemed perplexed. 'Is there anything you need she asks'? I relpy that " +
+			"there is not and excuse myself for bothering her.";
+			textBuffer += "\n\nPress [W] to go back to the Dining Room";
+			if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Dining Room";
+			}
 
 		}
 
