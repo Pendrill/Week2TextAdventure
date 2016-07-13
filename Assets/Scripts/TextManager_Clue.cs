@@ -24,12 +24,12 @@ public class TextManager_Clue : MonoBehaviour {
 	// the player has entered the room.
 
 	int outsideCounter=0, gardenCounter=0, entranceCounter=0, diningCounter=0, kitchenCounter=0, livingCounter=0,
-	guestCounter=0, libraryCounter=0, stairCounter=0, bedroomCounter=0, bathroomCounter=0, leaveCounter=0;
+	guestCounter=0, libraryCounter=0, bedroomCounter=0, bathroomCounter=0, leaveCounter=0;
 
 	//The player should start just Outside the Mansion.
 	string currentRoom = "The perimeter just outside the Mansion";
 	//We create the gates the player will have to open
-	bool GameOver=false;
+	bool GameOver=false, youWin=false, wrongPerson=false;
 	bool hasKeyToTheBedroom = false;
 	//bool hasEnteredTheMansion = false;
 	bool wasGivenPermissionToGarden = false;
@@ -144,7 +144,7 @@ public class TextManager_Clue : MonoBehaviour {
 			} 
 		} else if (currentRoom == "The Entrance Hall" && entranceCounter == 0) {
 			textBuffer += "\n\nAs soon as I walk into the main lobby I see the commissionner leaning against one of the many ornate tables. As his eyes meet mine he begins to walk towards me." +
-			"He removes his right hand from his pocket and as he passes me, he lays it on my shoulder.\n 'This might a tough one' he says 'Most of the witnesses are in the kitchen, we wanted to " +
+			"He removes his right hand from his pocket and as he passes me, he lays it on my shoulder.\n'This might a tough one' he says 'Most of the witnesses are in the kitchen, we wanted to " +
 			"move them away from the body. I'm going to go outside, let me know if you can make sense of this murder. \nI wasn't sure if the commissioner was truly stumped and couldn't deal with this case" +
 			"or if he was simply tired of this job and needed a smoke. In any case, it seemed clear that this was a murder";
 			textBuffer += "\n\npress [A] to enter the Dining Room";
@@ -271,13 +271,13 @@ public class TextManager_Clue : MonoBehaviour {
 
 				}
 			} else if (hasKeyToTheBedroom) {
-				textBuffer += "\nOnce I reach the top I go to open the door. I use the key I found in the library to unlock. The door opens.";
+				textBuffer += "\nOnce I reached the top I go to open the door. I used the key I found in the library to unlock. The door opened.";
 				textBuffer += "\n\nPress [A] to return to the Entrance Hall";
 				textBuffer += "\nPress [S] to go into the Master Bedroom";
 				if (Input.GetKeyDown (KeyCode.A)) {
 					currentRoom = "The Entrance Hall";
 				} else if (Input.GetKeyDown (KeyCode.S)) {
-					currentRoom = "The Master BedRoom";
+					currentRoom = "The Master Bedroom";
 				}
 			}
 
@@ -317,11 +317,11 @@ public class TextManager_Clue : MonoBehaviour {
 				currentRoom = "The Guest Room";
 			}
 		} else if (currentRoom == "The Guest Room" && guestCounter == 0) {
-			textBuffer += "\n\n I enter the guest room. I turn on the lamp on the desk. It seems pretty well kept. Though the bed is made, there seems to be a piece of paper sticking out, in between the quilt" +
+			textBuffer += "\n\nI enter the guest room. I turn on the lamp on the desk. It seems pretty well kept. Though the bed is made, there seems to be a piece of paper sticking out, in between the quilt" +
 			" and the mattress. As I pull it out, I realize it is only one piece of a ripped up letter. I remove the quilt and start looking for the rest of the letter. After a couple minutes I finally find" +
 			" enough to make out its content. \n\n'My Dear Lin, why have you been so evasive lately? I have done so much for you, I expect you to give me some sort of acknowledgement. You know that I love" +
 			" you. I'm not sure i you love me anymore, and if I can't have you no one can. If you don't return this letter to me, with your initial next to mine, then it will confirm my suspicions. Signed H.'" +
-			"\n This was very unsettling considering what has happened. We now have a motive.";
+			"\nThis was very unsettling considering what has happened. We now have a motive.";
 			letter = true;
 			textBuffer += "\n\nPress [D] to return to the Living Room";
 			if (Input.GetKeyDown (KeyCode.D)) {
@@ -337,16 +337,91 @@ public class TextManager_Clue : MonoBehaviour {
 				guestCounter++;
 			}
 		} else if (currentRoom == "The Library" && libraryCounter == 0) {
+			textBuffer += "\n\nThere are a lot of books here, which is not really surprising. There are definitley too many for me to look through all of them." +
+			" This room doesn't have a lot to offer. There is a key here though. I should probably take it in case I come across any locked doors.";
+			hasKeyToTheBedroom = true;
+			textBuffer += "\n\nPress [W] to return to the Living Room";
+			if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Living Room";
+				libraryCounter++;
+			}
+		} else if (currentRoom == "The Library" && libraryCounter > 0) {
+			textBuffer += "\n\nI unfortunately still don't have the time to go through all these books. I should move on to an other room.";
+			textBuffer += "\n\nPress [W] to return to the Living Room";
+			if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Living Room";
+			}
+		} else if (currentRoom == "The Master Bedroom" && bedroomCounter == 0) {
+			textBuffer += "\n\nThis seems to be the master bedroom. I doubt I will find any important information here. I do here noise coming from the bathroom." +
+				"Maybe I should check it out. It could be one of the witnesses. They could maybe offer some new information.";
+			textBuffer += "\n\nPress [W] to return to the Main Entrance";
+			textBuffer += "\n\nPress [D] to go in the Bathroom";
+			if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Entrance Hall";
+				bedroomCounter++;
+			} else if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The Bathroom";
+				bedroomCounter++;
+			}
 
+		} else if (currentRoom == "The Master Bedroom" && bedroomCounter > 0) {
+			textBuffer += "This room no longer relevant to the Investigation. I should not be snooping through this person's personal possessions.";
+			textBuffer += "\n\nPress [W] to return to the Main Entrance";
+			textBuffer += "\n\nPress [D] to go in the Bathroom";
+			if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Entrance Hall";
+				bedroomCounter++;
+			} else if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The Bathroom";
+				bedroomCounter++;
+			}
 
+		} else if (currentRoom == "The Bathroom" && bathroomCounter == 0) {
+			textBuffer += "\n\nI knock on the door to the bathroom. Before i can knock for a third time the door opens. \n'What are you doing here'? I explain to them that I am a police officer, part of the " +
+			"investigation.\n'I'm sorry, after witnessing the... the... well I just couldn't. Sam directed me to the Bathroom so i could wash my face. I have experienced some tense and stresfull" +
+			"situations when defending clients, but nothing like this. I don't think I will ever get the image of her out of my mind." +
+			" I try to console and inform them that they should probably return to the Dining room with the rest of the witnesses. AFter they leave i notice that the toilet had just been flushed." +
+			"Were they really here to wash their face? Or maybe get rid of evidence? One thing is for sure, I shouldn't accuse anyone based on a gut feeling."; 
+			textBuffer += "\n\nPress [A] to go back in the Master Bedroom";
+			if (Input.GetKeyDown (KeyCode.A)) {
+				currentRoom = "The Master Bedroom";
+				bathroomCounter++;
+			}
+		} else if (currentRoom == "The Bathroom" && bathroomCounter > 0) {
+			textBuffer += "\n\nI actually don't need to use the bathroom right now.";
+			textBuffer += "\n\nPress [A] to go back in the Master Bedroom";
+			if (Input.GetKeyDown (KeyCode.A)) {
+				currentRoom = "The Master Bedroom";
+				//bathroomCounter++;
+			}
+		
+		} else if (currentRoom == "Commissioner") {
+			textBuffer = "\nI walk up to the Commissioner \n'So you think you have a suspect? Who do you think it is?";
+			textBuffer += "\n\nPress [Q] to accuse HENRY " +
+			"\nPress [W] to accuse VALENTINE" +
+			"\nPress [E] to accuse MARIE" +
+			"\nPress [R] to accuse LAURA" +
+			"\nPress [T] to accuse SAM";
+			if (Input.GetKeyDown (KeyCode.Q)) {
+				youWin = true;
+			} else if (Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.E) || Input.GetKeyDown (KeyCode.R) || Input.GetKeyDown (KeyCode.T)) {
+				wrongPerson = true;
+			}
 		}
-
 
 
 
 
 		if (GameOver) {
 			textBuffer = "GAME OVER. The case will remain unsolved";
+		} else if (youWin) {
+			textBuffer = "YOU WIN.\n\nHenry seems like the most likely suspect. Henry is the only one with the initial H for his first name. This matches the initial found on the letter." +
+			"This indicates that Henri could have an obsetion for the victim. Not being able to have the victim could have led him to murder them. The murder weapon seems to have been" +
+			"poison. More precisely, arsenic trioxide. A vial of this substance was found in the garden. We also know that after the murder, Henri opened the window to suposebly look out the window." +
+			"It's very possible he attempted to dispose of the evidence by throwing it away into the garden. Finally, Henry is a pharmacist. Out of all the suspects, he is the one who could access the " +
+			"that type of poison.";
+		} else if (wrongPerson) {
+			textBuffer = "GAME OVER. You accused an innocent person. The case will remain unsolved";
 		}
 		if (hasVial&&window&&pharmacist&&letter&&cup){
 			hasAllTheEvidence=true;
