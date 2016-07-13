@@ -365,9 +365,9 @@ public class TextManager_Clue : MonoBehaviour {
 			}
 
 		} else if (currentRoom == "The Master Bedroom" && bedroomCounter > 0) {
-			textBuffer += "This room no longer relevant to the Investigation. I should not be snooping through this person's personal possessions.";
+			textBuffer += "\n\nThis room no longer relevant to the Investigation. I should not be snooping through this person's personal possessions.";
 			textBuffer += "\n\nPress [W] to return to the Main Entrance";
-			textBuffer += "\n\nPress [D] to go in the Bathroom";
+			textBuffer += "\nPress [D] to go in the Bathroom";
 			if (Input.GetKeyDown (KeyCode.W)) {
 				currentRoom = "The Entrance Hall";
 				bedroomCounter++;
