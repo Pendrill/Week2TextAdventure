@@ -85,9 +85,12 @@ public class TextManager_Clue : MonoBehaviour {
 				}
 			} else if (hasAllTheEvidence) {
 				textBuffer += "\n\nI think I have found all the evidence in the house. Now might be the time to go see the Commissioner and possibly make an arrest.";
-				textBuffer += "\n\nPress [S] to confront the Commissioner.";
-				if (Input.GetKeyDown (KeyCode.S)) {
+				textBuffer += "\n\nPress [W] to confront the Commissioner.";
+				textBuffer += "\n\npress [S] to enter the Residence";
+				if (Input.GetKeyDown (KeyCode.W)) {
 					currentRoom = "Commissioner";
+				} else if (Input.GetKeyDown (KeyCode.S)) {
+					currentRoom = "The Entrance Hall";
 				}
 			}
 
@@ -102,7 +105,7 @@ public class TextManager_Clue : MonoBehaviour {
 				//add the options to return to the previous rooms, so that the player can retrieve their student ID
 			} else if (wasGivenPermissionToGarden) {
 				textBuffer += "\nI open the gate and step into the garden. There is not much to see here. It seems most of the plants have wilted away. Just as I am about to leace the garden" +
-				"a momentary flash of light blinds me. I notice a tiny vial of glass laying on the floor. I put on my gloves and pick it up. A very distinct smell emits from the vial." +
+				"a momentary flash of light blinds me. I notice a tiny vial of glass laying on the floor. I put on my gloves and pick it up. The vial still has a label which reads: 'arsenic trioxide'." +
 				"I place the vial with the rest of the evidence.";
 				hasVial = true;
 				textBuffer += "\n\npress [D] to return to the perimeter outside the residence";
@@ -238,7 +241,9 @@ public class TextManager_Clue : MonoBehaviour {
 		} else if (currentRoom == "The Kitchen" && kitchenCounter == 0) {
 			textBuffer += "\n\nAs I walk into the kitchen I find another one of the witnesses. \n'Are you one of the police officers on the case?' They ask. I reply that I am and show them my badge." +
 			"They looks at it dismissively and then says 'My name is Sam, I am the owner of this Residence. Is there anything you would like to know?' I asked her about the other witnesses. 'Oh, well" +
-			" we are all friends. Henry is a pharmacist, Valentine is an actor, Marie is a lawyer, and Laura is currently unnemployed but she used to serve in the military'. I jot all the information down" +
+			" we are all friends. Henry is a pharmacist, he's the one who has been incessantly crying for the past hour. He only stoped to open the window and take a closer look at the garden." +
+			" Valentine is an actor, Marie is a lawyer, and Laura is currently unnemployed but she used to serve in the military. They are all too obviously shaken up for you to ask them questions" +
+			"'. I jot all the information down" +
 			"on my notebook. Before leaving her i ask her if it ok for me to search every place within the residence. She nodded yes reluctantly.";
 			pharmacist = true;
 			wasGivenPermissionToGarden = true;
@@ -275,6 +280,64 @@ public class TextManager_Clue : MonoBehaviour {
 					currentRoom = "The Master BedRoom";
 				}
 			}
+
+		} else if (currentRoom == "The Living Room" && livingCounter == 0) {
+			textBuffer += "\n\nAnd there she was. The victim. She seemed to be resting on the coffee table. There was no sign of a stuggle. No bruises. No blood." +
+			"But she was dead. How could this even be possible? How could there be no sign left as to what led her to die so suddenly. And could this possibly be a murder?" +
+			"The commissionor seemed pretty confindant that it was. I should inspect the area more closely with that in mind.\nAfter half an hour, it seemed that I had found very little." +
+			" The only thing of note was the victims glass. It has broken off into pieces as if it had been dropped. There was sill one main piece that had remained somewhat intact.Before placing" +
+			"the cup with the rest of the evidence, i noticed a fait trace of white powder on the edges of the cup.";
+			cup = true;
+			textBuffer += "\n\npress [S] to enter the Library";
+			textBuffer += "\nPress [A] to go to the guest Room";
+			textBuffer += "\nPress [W] to go back to the Main Hall";
+
+			if (Input.GetKeyDown (KeyCode.S)) {
+				currentRoom = "The Library";
+				livingCounter++;
+			} else if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Entrance Hall";
+				livingCounter++;
+			} else if (Input.GetKeyDown (KeyCode.A)) {
+				currentRoom = "The Guest Room";
+				livingCounter++;
+			}
+
+		} else if (currentRoom == "The Living Room" && livingCounter > 0) {
+			textBuffer += "\n\nEverything is still pretty much the same here as well. The body is still here. I don't really feel comfortable here.";
+			textBuffer += "\n\npress [S] to enter the Library";
+			textBuffer += "\nPress [A] to go to the guest Room";
+			textBuffer += "\nPress [W] to go back to the Main Hall";
+
+			if (Input.GetKeyDown (KeyCode.S)) {
+				currentRoom = "The Library";
+			} else if (Input.GetKeyDown (KeyCode.W)) {
+				currentRoom = "The Entrance Hall";
+			} else if (Input.GetKeyDown (KeyCode.A)) {
+				currentRoom = "The Guest Room";
+			}
+		} else if (currentRoom == "The Guest Room" && guestCounter == 0) {
+			textBuffer += "\n\n I enter the guest room. I turn on the lamp on the desk. It seems pretty well kept. Though the bed is made, there seems to be a piece of paper sticking out, in between the quilt" +
+			" and the mattress. As I pull it out, I realize it is only one piece of a ripped up letter. I remove the quilt and start looking for the rest of the letter. After a couple minutes I finally find" +
+			" enough to make out its content. \n\n'My Dear Lin, why have you been so evasive lately? I have done so much for you, I expect you to give me some sort of acknowledgement. You know that I love" +
+			" you. I'm not sure i you love me anymore, and if I can't have you no one can. If you don't return this letter to me, with your initial next to mine, then it will confirm my suspicions. Signed H.'" +
+			"\n This was very unsettling considering what has happened. We now have a motive.";
+			letter = true;
+			textBuffer += "\n\nPress [D] to return to the Living Room";
+			if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The Living Room";
+				guestCounter++;
+			}
+
+		} else if (currentRoom == "The Guest Room" && guestCounter > 0) {
+			textBuffer += "\n\nThis room is pretty messy now. At some point I should probably turn off the light and put the quilt back. Right now, there is no point for me to stay here.";
+			textBuffer += "\n\nPress [D] to return to the Living Room";
+			if (Input.GetKeyDown (KeyCode.D)) {
+				currentRoom = "The Living Room";
+				guestCounter++;
+			}
+		} else if (currentRoom == "The Library" && libraryCounter == 0) {
+
 
 		}
 
